@@ -90,8 +90,19 @@ Sidecast/
 │   └── poc-log.md          # PoC結果ログ
 ├── PoC/                    # Swift Package (executable)、UI無しのCLI群
 │   └── Package.swift
-└── Sidecast/               # Xcodeプロジェクト（PoC完了後に作成）
+└── Sidecast/               # アプリ本体
+    ├── project.yml         # xcodegen 定義（`cd Sidecast && xcodegen generate` で .xcodeproj を生成。xcodeproj と build/ は git 管理外）
+    └── Sidecast/           # ソース（Audio/ Monitors/ UI/ Settings.swift SidecastController.swift）
 ```
+
+### ビルドと起動
+
+```
+cd Sidecast && xcodegen generate
+xcodebuild -project Sidecast.xcodeproj -scheme Sidecast -configuration Debug -derivedDataPath build build
+open build/Build/Products/Debug/Sidecast.app
+```
+ログは `log show --predicate 'subsystem == "org.takashick.Sidecast"' --info --last 10m`（info レベルなので `--info` が必要）
 
 ## 進め方: PoCで未検証事項を先に潰す（UIは後）
 
@@ -114,4 +125,5 @@ Sidecast/
 - 2026-09-18: **PoC 2（mutedWhenTapped）成功** — 元出力が完全に無音化し、タップ側に 48 kHz float で音声が流れることを確認。方式確定。注意: IOProc ブロックは `nonisolated` 関数で生成しないと MainActor 推論で SIGTRAP
 - 2026-09-18: **PoC 3（集約再生）成功** — タップ＋HDMI の集約デバイスで再生・ソフト gain・レート差（48k→44.1k）の透過リサンプルまで確認。第 1 案で確定、リングバッファ不要
 - 2026-09-19: **PoC 4（ロスレス）成功**、**PoC 5（再構築）成功** — Music 再起動・HDMI 抜き差し・既定出力切替の全ケースで追従。HDMI 挿し直し直後の集約デバイス空回りに対し「2 秒の安定待ち＋ストール監視」で解決。**PoC フェーズ完了**。本番へ持ち越す注意点は `docs/poc-log.md` 末尾の「まとめ」参照
-- **次にやること**: `Sidecast/` に Xcode プロジェクト（SwiftUI `MenuBarExtra`、`LSUIElement`）を作成し、PoC の `PoCCommon` / `rebuild` のロジックを `AudioEngine` / `ProcessMonitor` / `DeviceMonitor` に移植。UI は ON/OFF・対象アプリ選択・gain スライダー
+- 2026-09-19: **Xcode プロジェクト作成（xcodegen）・アプリ v0.1.0 動作確認済み** — MenuBarExtra の UI（ON/OFF・出力先 Picker・gain スライダー・対象アプリの追加/削除）から Music → HDMI の転送、音量変更、OFF で本体復帰まで実機で確認。PoC のロジックを `AudioEngine` / `ProcessMonitor` / `DeviceMonitor` / `SidecastController` に移植済み
+- **次にやること（候補）**: ①Chrome / Safari を対象にした実機確認（helper/WebKit GPU の責任プロセス判定が UI の追加メニューで正しく出るか）②ログイン項目登録（SMAppService）③HDMI 抜き差し・Music 再起動をアプリ版でも確認 ④README の使い方を整える

@@ -4,3 +4,7 @@
 *.xcodeproj/project.xcworkspace/xcuserdata/
 DerivedData/
 .swiftpm/
+
+# xcodegen が生成する（project.yml から再生成できる）
+Sidecast/Sidecast.xcodeproj/
+Sidecast/build/

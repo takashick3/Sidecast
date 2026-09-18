@@ -1,0 +1,46 @@
+# xcodegen 定義。`cd Sidecast && xcodegen generate` で Sidecast.xcodeproj を生成する（xcodeproj は git 管理外）
+name: Sidecast
+options:
+  bundleIdPrefix: org.takashick
+  deploymentTarget:
+    macOS: "27.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    # 自分の Mac でだけ動かす。ad-hoc 署名、サンドボックス・Hardened Runtime なし
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+    ENABLE_HARDENED_RUNTIME: NO
+    ENABLE_APP_SANDBOX: NO
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    DEAD_CODE_STRIPPING: YES
+targets:
+  Sidecast:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sidecast
+    info:
+      path: Sidecast/Info.plist
+      properties:
+        CFBundleDisplayName: Sidecast
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.utilities
+        NSAudioCaptureUsageDescription: 対象アプリの音声を HDMI 出力へ転送するために、システムオーディオのキャプチャ（Process Tap）を使用します。
+        NSHumanReadableCopyright: © 2026 takashick3. MIT License.
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.takashick.Sidecast
+        PRODUCT_NAME: Sidecast
+        GENERATE_INFOPLIST_FILE: NO
+        SWIFT_EMIT_LOC_STRINGS: NO
+        COMBINE_HIDPI_IMAGES: YES
