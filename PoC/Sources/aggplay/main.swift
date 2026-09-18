@@ -89,6 +89,14 @@ if listOnly || deviceQuery == nil {
                      d.availableSampleRates.map { String(Int($0)) }.joined(separator: "/"), d.outputChannels,
                      d.volumeSettable ? "Y" : "N", d.volumeScalar.map { String(format: "%.2f", $0) } ?? "-", d.uid))
     }
+    // 残留タップの確認 (システムオブジェクトの kAudioHardwarePropertyTapList)
+    let taps = readObjectList(AudioObjectID(kAudioObjectSystemObject), kAudioHardwarePropertyTapList)
+    print("process taps in system: \(taps.count) \(taps)")
+    for t in taps {
+        print("  tap \(t): uid=\(readString(t, kAudioTapPropertyUID) ?? "?") format=\(readScalar(t, kAudioTapPropertyFormat, as: AudioStreamBasicDescription.self).map(describeFormat) ?? "?")")
+    }
+    let all = allDevices()
+    print("all devices: \(all.map { "\($0):\(deviceName($0) ?? "?")[\(transportTypeName(readScalar($0, kAudioDevicePropertyTransportType, as: UInt32.self) ?? 0))]" })")
     if deviceQuery == nil { print("\n--device <UID か名前の一部> を指定してください") }
     exit(0)
 }

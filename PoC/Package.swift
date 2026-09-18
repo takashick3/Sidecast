@@ -13,5 +13,7 @@ let package = Package(
         .executableTarget(name: "tapmute", dependencies: ["PoCCommon"], path: "Sources/tapmute"),
         // PoC 3: タップ + HDMI サブデバイスの集約デバイスで再生 (ソフト gain 付き)
         .executableTarget(name: "aggplay", dependencies: ["PoCCommon"], path: "Sources/aggplay"),
+        // PoC 5: プロセス/デバイス変更リスナーでタップ+集約デバイスを破棄・再構築
+        .executableTarget(name: "rebuild", dependencies: ["PoCCommon"], path: "Sources/rebuild"),
     ]
 )
