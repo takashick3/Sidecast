@@ -111,4 +111,6 @@ Sidecast/
 
 - 2026-09-18: 設計フェーズ完了（この文書が設計）。GitHubリポジトリ作成済み（空）、作業ディレクトリ作成済み。コード未着手。
 - 2026-09-18: git 初期化・初回コミット済み（remote は HTTPS。SSH 鍵は業務アカウントに紐づくため使わない）。**PoC 1（プロセスダンプ）成功** — Core Audio は helper/XPC の bundle ID をそのまま返すため責任プロセス解決が必要と確定。詳細は `docs/poc-log.md`
-- **次にやること**: PoC 2（Music.app をタップし `mutedWhenTapped` で元出力が無音になるか）。検証時は eqMac を終了しておく
+- 2026-09-18: **PoC 2（mutedWhenTapped）成功** — 元出力が完全に無音化し、タップ側に 48 kHz float で音声が流れることを確認。方式確定。注意: IOProc ブロックは `nonisolated` 関数で生成しないと MainActor 推論で SIGTRAP
+- 2026-09-18: **PoC 3（集約再生）成功** — タップ＋HDMI の集約デバイスで再生・ソフト gain・レート差（48k→44.1k）の透過リサンプルまで確認。第 1 案で確定、リングバッファ不要
+- **次にやること**: PoC 4（Apple Music ロスレス/保護コンテンツがタップで取れるか）→ PoC 5（HDMI 抜き差し・Music 再起動時の再構築）。eqMac は停止済み、既定出力は本体スピーカー、HDMI は 48 kHz に戻し済み
