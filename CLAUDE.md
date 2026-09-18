@@ -110,4 +110,5 @@ Sidecast/
 ## 現状
 
 - 2026-09-18: 設計フェーズ完了（この文書が設計）。GitHubリポジトリ作成済み（空）、作業ディレクトリ作成済み。コード未着手。
-- **次にやること**: ①`git init` → ローカルのuser.name/email設定（takashick3）→ remote追加 ②LICENSE(MIT)・README・この CLAUDE.md・`docs/poc-log.md` を初回コミット ③PoC 1（プロセスダンプ）から開始
+- 2026-09-18: git 初期化・初回コミット済み（remote は HTTPS。SSH 鍵は業務アカウントに紐づくため使わない）。**PoC 1（プロセスダンプ）成功** — Core Audio は helper/XPC の bundle ID をそのまま返すため責任プロセス解決が必要と確定。詳細は `docs/poc-log.md`
+- **次にやること**: PoC 2（Music.app をタップし `mutedWhenTapped` で元出力が無音になるか）。検証時は eqMac を終了しておく
