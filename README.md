@@ -14,14 +14,16 @@ to an HDMI output device while everything else keeps playing on the normal outpu
 - An HDMI (or any non-default) output device. The app never taps when the selected device is the system default output.
 - First run asks for the "System Audio Recording" permission (Process Taps).
 
-## Build & run
+## Build, package, install
 
 ```
 cd Sidecast
-xcodegen generate
-xcodebuild -project Sidecast.xcodeproj -scheme Sidecast -configuration Debug -derivedDataPath build build
-open build/Build/Products/Debug/Sidecast.app
+./build.sh     # xcodegen + Release build + dist/Sidecast-<version>.dmg
+./install.sh   # build.sh, then copy to /Applications/Sidecast.app and relaunch
 ```
+
+Run the app from `/Applications` if you want "Launch at login" (SMAppService) to keep working across rebuilds.
+For a plain Debug build: `xcodegen generate && xcodebuild -project Sidecast.xcodeproj -scheme Sidecast -configuration Debug -derivedDataPath build build`.
 
 ## Usage
 
@@ -31,6 +33,7 @@ open build/Build/Products/Debug/Sidecast.app
    (e.g. `Safari ▸ GPU`); pick the ones to route.
 4. Turn the switch on. The selected apps play on the HDMI device and go silent on the normal output;
    the slider adjusts the HDMI volume (software gain).
+5. "Launch at login" registers the app as a login item.
 
 The routing follows app restarts, HDMI hot-plug and default-output changes automatically.
 

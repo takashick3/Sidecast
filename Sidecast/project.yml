@@ -10,8 +10,8 @@ settings:
   base:
     SWIFT_VERSION: "6.0"
     SWIFT_STRICT_CONCURRENCY: complete
-    MARKETING_VERSION: "0.1.0"
-    CURRENT_PROJECT_VERSION: "1"
+    MARKETING_VERSION: "0.2.0"
+    CURRENT_PROJECT_VERSION: "2"
     # 自分の Mac でだけ動かす。ad-hoc 署名、サンドボックス・Hardened Runtime なし
     CODE_SIGN_STYLE: Manual
     CODE_SIGN_IDENTITY: "-"

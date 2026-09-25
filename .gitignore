@@ -8,3 +8,4 @@ DerivedData/
 # xcodegen が生成する（project.yml から再生成できる）
 Sidecast/Sidecast.xcodeproj/
 Sidecast/build/
+Sidecast/dist/

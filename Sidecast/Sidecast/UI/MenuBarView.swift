@@ -66,11 +66,18 @@ struct MenuBarView: View {
 
             Divider()
 
+            Toggle("ログイン時に起動", isOn: Binding(get: { controller.launchAtLogin }, set: { controller.setLaunchAtLogin($0) }))
+                .toggleStyle(.checkbox)
+            if controller.launchAtLogin && !controller.isInstalledInApplications {
+                Text("/Applications 以外から起動しています。ビルドし直すとログイン項目のパスが古くなります")
+                    .font(.caption2).foregroundStyle(.orange)
+            }
+
             Button("Sidecast を終了") { NSApplication.shared.terminate(nil) }
                 .buttonStyle(.borderless)
         }
         .padding(12)
         .frame(width: 300)
-        .onAppear { controller.processes.refresh(); controller.devices.refresh() }
+        .onAppear { controller.processes.refresh(); controller.devices.refresh(); controller.refreshLaunchAtLogin() }
     }
 }

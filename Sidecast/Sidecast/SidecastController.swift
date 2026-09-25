@@ -4,6 +4,7 @@
 import Foundation
 import CoreAudio
 import Observation
+import ServiceManagement
 import os
 
 @MainActor
@@ -18,6 +19,10 @@ final class SidecastController {
     private(set) var statusText = "停止中"
     private(set) var isActive = false
     private(set) var lastError: String?
+    /// ログイン項目（SMAppService）の現在状態。register/unregister 後に再読込する
+    private(set) var launchAtLogin = SMAppService.mainApp.status == .enabled
+    /// /Applications 以外から起動していると、ビルドし直したときにログイン項目のパスが古くなる
+    var isInstalledInApplications: Bool { Bundle.main.bundlePath.hasPrefix("/Applications/") }
 
     @ObservationIgnored private let log = Logger(subsystem: "org.takashick.Sidecast", category: "Controller")
     @ObservationIgnored private var reconcileTask: Task<Void, Never>?
@@ -69,6 +74,17 @@ final class SidecastController {
         settings.targets.append(t)
         scheduleReconcile("targets")
     }
+    func setLaunchAtLogin(_ on: Bool) {
+        do {
+            if on { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
+            lastError = nil
+        } catch {
+            lastError = "ログイン項目の変更に失敗: \(error.localizedDescription)"
+            log.error("SMAppService failed: \(error, privacy: .public)")
+        }
+        launchAtLogin = SMAppService.mainApp.status == .enabled
+    }
+    func refreshLaunchAtLogin() { launchAtLogin = SMAppService.mainApp.status == .enabled }
     func removeTarget(_ t: TargetApp) { settings.targets.removeAll { $0.id == t.id }; scheduleReconcile("targets") }
 
     // MARK: 判定と再構築
