@@ -127,4 +127,5 @@ Sidecast/
 - 2026-09-19: **PoC 4（ロスレス）成功**、**PoC 5（再構築）成功** — Music 再起動・HDMI 抜き差し・既定出力切替の全ケースで追従。HDMI 挿し直し直後の集約デバイス空回りに対し「2 秒の安定待ち＋ストール監視」で解決。**PoC フェーズ完了**。本番へ持ち越す注意点は `docs/poc-log.md` 末尾の「まとめ」参照
 - 2026-09-19: **Xcode プロジェクト作成（xcodegen）・アプリ v0.1.0 動作確認済み** — MenuBarExtra の UI（ON/OFF・出力先 Picker・gain スライダー・対象アプリの追加/削除）から Music → HDMI の転送、音量変更、OFF で本体復帰まで実機で確認。PoC のロジックを `AudioEngine` / `ProcessMonitor` / `DeviceMonitor` / `SidecastController` に移植済み
 - 2026-09-25: **v0.2.0** — 「ログイン時に起動」トグル（SMAppService）、`build.sh`（Release + dmg）/ `install.sh`（/Applications へ導入）、dmg 同梱の README.txt を追加。`/Applications/Sidecast.app` から運用開始
-- **次にやること（候補）**: ①ログイン時起動の実機確認（ログアウト→ログイン）②Chrome / Safari を対象にした実機確認（helper/WebKit GPU の責任プロセス判定が UI の追加メニューで正しく出るか）③HDMI 抜き差し・Music 再起動をアプリ版でも確認
+- 2026-09-26: **v0.2.0 の実機確認完了** — サインアウト→ログインで自動起動、Safari / Chrome を対象にした HDMI 出力（責任プロセス判定を含む）、HDMI 抜き差し、Music 再起動後の追従、すべて問題なし。要件はすべて満たした状態
+- **次にやること**: 当面なし（日常利用で問題が出たら対応）。改善候補があれば: メニューに出力レベルメーター表示、対象アプリごとの ON/OFF、ハイレゾ時のレート追従
