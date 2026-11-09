@@ -1,5 +1,7 @@
 # Sidecast
 
+[![Sponsor](https://img.shields.io/github/sponsors/takashick3?label=Sponsor&logo=GitHub&color=ea4aaa)](https://github.com/sponsors/takashick3)
+
 macOS menu bar app that routes the audio of selected apps (e.g. Music.app, browsers)
 to an HDMI output device while everything else keeps playing on the normal output.
 
@@ -44,6 +46,11 @@ PoC/        Swift Package (executable CLIs) used to validate each building block
 Sidecast/   App: project.yml (xcodegen) + sources
 docs/       PoC log and other documents
 ```
+
+## Sponsor
+
+If Sidecast is useful to you, you can support its development via
+[GitHub Sponsors](https://github.com/sponsors/takashick3).
 
 ## License
 
